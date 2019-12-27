@@ -1,0 +1,4 @@
+-I/Users/benmezger/workspace/new-kernel/src
+-I/Users/benmezger/Downloads/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-apple-darwin/include
+-I/Users/benmezger/Downloads/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-apple-darwin/riscv64-unknown-elf
+-I/Users/benmezger/Downloads/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-apple-darwin/riscv64-unknown-elf/include
