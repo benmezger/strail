@@ -3,6 +3,7 @@ BINARY = kernel
 
 BINDIR = ./bin
 SRCDIR = ./src
+INC=-I./include/
 SRCS := $(shell find $(SRCDIR) -name *.c -or -name *.s)
 
 RISCV_COMPILER = riscv64-unknown-elf-gcc
@@ -22,7 +23,8 @@ CFLAGS = \
 	-mcmodel=medany \
 	-lgcc \
 	-march=rv64imafdc \
-	-mabi=lp64d
+	-mabi=lp64d \
+	$(INC)
 
 LINKER_SCRIPT = riscv64-virt.ld
 
