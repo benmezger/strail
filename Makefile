@@ -59,6 +59,7 @@ qemu:
 	-kernel $(BINARY) \
 	-gdb tcp::$(GDB_PORT) \
 	-S \
+	-nographic
 
 .PHONY: gdb
 gdb:
