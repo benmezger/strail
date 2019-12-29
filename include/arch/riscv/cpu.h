@@ -42,4 +42,13 @@
 		clear_csr(mstatus, MSTATUS_MIE_OFFSET); \
 	})
 
+int mhartid;
+
+#define get_cpu_hartid()                                               \
+	({                                                             \
+		int _mhartid;                                          \
+		__asm__ volatile("csrr %0, mhartid" : "=r"(_mhartid)); \
+		_mhartid;                                              \
+	})
+
 #endif
