@@ -1,20 +1,27 @@
 /* Move section to .init that is allocatable and executable. */
 .section .init, "ax"
+.align 2
 .global _start
 
 _start:
-    .cfi_startproc
-    .cfi_undefined ra
+        .cfi_startproc
+        .cfi_undefined ra
 
-    .option push
-    .option norelax
+        # _setup_mtrap if interrupt is not enabled
+        #csrr t0, mstatus
+        #beqz t0, _setup_mtrap
 
-    la gp, __global_pointer$
-    .option pop
+        .option push
+        .option norelax
 
-    la sp, __stack_top
-    add s0, sp, zero
+        la gp, __global_pointer$
+        .option pop
 
-   jal zero, main
-    .cfi_endproc
-    .end
+        la sp, __stack_top
+        add s0, sp, zero
+
+
+        jal _setup_mtrap
+        jal zero, main
+        .cfi_endproc
+        .end
