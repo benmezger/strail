@@ -78,9 +78,20 @@
 
 _trap_entry:
         SAVE_CONTEXT
-        csrr a0, mcause # write mcause to first function argument
-        csrr a1, mtval # write mtval (exception specific information) to second function argument
+        # csrr a0, mcause # write mcause to first function argument
+        # csrr a1, mtval # write exception specific information to second argument
+        # csrr a2, mpec # write machine exeception program counter to third argument
+        mv a0, sp # move sp to the first argument
         jal trap_handler
+
+        # Set exception pc back to sp
+        csrw mepc, a0
+
+        # Remain in M-mode after mret
+        li t0, 8
+        csrrs zero, mstatus, t0
+        RESTORE_CONTEXT
+        mret
 
 .globl _setup_mtrap
 _setup_mtrap:

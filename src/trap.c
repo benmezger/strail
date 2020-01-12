@@ -3,7 +3,7 @@
 #endif
 
 int
-trap_handler(int mcause, int mtval)
+trap_handler(trapframe_t *trapframe)
 {
-	return mcause + mtval;
+	return 0;
 }
