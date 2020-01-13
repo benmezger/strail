@@ -3,7 +3,7 @@
 #endif
 
 .macro SAVE_CONTEXT
-        addi sp, sp, -32 * REGBYTES
+        addi sp, sp, -36 * REGBYTES
         STORE ra, 1 * REGBYTES(sp)
         STORE sp, 2 * REGBYTES(sp)
         STORE gp, 3 * REGBYTES(sp)
@@ -35,6 +35,22 @@
         STORE t4, 29 * REGBYTES(sp)
         STORE t5, 30 * REGBYTES(sp)
         STORE t6, 31 * REGBYTES(sp)
+
+        # get sr, epc, badvaddr, cause
+        csrrw t0, sscratch, zero
+        csrr s0, mstatus
+        csrr t1, mepc
+        csrr t2, mbadaddr
+        csrr t3, mcause
+        STORE t0, 2 * REGBYTES(sp)
+        STORE s0, 32 * REGBYTES(sp)
+        STORE t1, 33 * REGBYTES(sp)
+        STORE t2, 34 * REGBYTES(sp)
+        STORE t3, 35 * REGBYTES(sp)
+
+        # get faulting insn, if it wasn't a fetch-related trap
+        li t0, -1
+        STORE t0 ,36 * REGBYTES(sp)
 .endm
 
 .macro RESTORE_CONTEXT
