@@ -1,6 +1,8 @@
 #ifndef _TRAP_H
 #define _TRAP_H
 
+#include "encoding.h"
+
 #define TRAP_CAUSE_MISALIGNED_FETCH 0x0
 #define TRAP_CAUSE_FETCH_ACCESS 0x1
 #define TRAP_CAUSE_ILLEGAL_INSTRUCTION 0x2
@@ -24,7 +26,7 @@ typedef struct {
 	long badvaddr;
 	long cause;
 	long insn;
-} trapframe_t;
+} trapframe_t __attribute__((aligned(REGBYTES)));
 
 typedef void (*trap_callback)(trapframe_t *);
 
@@ -32,7 +34,6 @@ void handle_machine_ecall(trapframe_t *);
 
 extern const trap_callback trap_handlers[] = {
 	[TRAP_CAUSE_MACHINE_ECALL] = handle_machine_ecall,
-
 };
 
 /* Handle kernel traps */

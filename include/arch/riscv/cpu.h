@@ -1,13 +1,6 @@
 #ifndef _CPU_H
 #define _CPU_H
 
-/* From:
- * https://github.com/sifive/freedom-metal/blob/master/src/privilege.c
- * 2c96ceb44c9a6a489846aaaebf7bdc2dc710b80c
- */
-#define MSTATUS_MIE_OFFSET 3
-#define MSTATUS_MPIE_OFFSET 7
-
 #define clear_csr(reg, bit)                                                 \
 	({                                                                  \
 		unsigned long __tmp;                                        \
@@ -42,13 +35,18 @@
 		clear_csr(mstatus, MSTATUS_MIE_OFFSET); \
 	})
 
-int mhartid;
-
-#define get_cpu_hartid()                                               \
+#define cpu_hartid()                                                   \
 	({                                                             \
 		int _mhartid;                                          \
 		__asm__ volatile("csrr %0, mhartid" : "=r"(_mhartid)); \
 		_mhartid;                                              \
+	})
+
+#define read_csr(reg)                                         \
+	({                                                    \
+		unsigned long __tmp;                          \
+		asm volatile("csrr %0, " #reg : "=r"(__tmp)); \
+		__tmp;                                        \
 	})
 
 #endif
