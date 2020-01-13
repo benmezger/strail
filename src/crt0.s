@@ -19,9 +19,9 @@ _start:
 
         la sp, __stack_top
         add s0, sp, zero
-
-
+#ifdef RISCV_ARCH
         jal _setup_mtrap
+#endif
         jal zero, main
         .cfi_endproc
         .end

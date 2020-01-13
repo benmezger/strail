@@ -1,11 +1,8 @@
-#ifdef RISCV_ARCH
 #include <arch/riscv/encoding.h>
-#endif
 
 .macro SAVE_CONTEXT
         addi sp, sp, -36 * REGBYTES
         STORE ra, 1 * REGBYTES(sp)
-        STORE sp, 2 * REGBYTES(sp)
         STORE gp, 3 * REGBYTES(sp)
         STORE tp, 4 * REGBYTES(sp)
         STORE t0, 5 * REGBYTES(sp)
@@ -118,7 +115,7 @@ _setup_mtrap:
         slli t0, t0, 1 # shift address left by one ; LSB will be 0 (DIRECT_MODE)
 
         # enable machine-mode interrupt (mstatus.MIE = 1)
-        li t0, 8
+        li t0, MSTATUS_MIE
         csrrs zero, mstatus, t0
         ret
 .end
