@@ -24,6 +24,9 @@ typedef struct {
 	long status;
 	long epc;
 	long badvaddr;
+	/*
+	 * (cause) mcause register is set if trap was caused by an interrupt
+	 */
 	long cause;
 	long insn;
 } trapframe_t __attribute__((aligned(REGBYTES)));
@@ -32,11 +35,13 @@ typedef void (*trap_callback)(trapframe_t *);
 
 void handle_machine_ecall(trapframe_t *);
 
-extern const trap_callback trap_handlers[] = {
+const trap_callback trap_handlers[] = {
 	[TRAP_CAUSE_MACHINE_ECALL] = handle_machine_ecall,
 };
 
+void delegate_mode_trap();
+
 /* Handle kernel traps */
-int trap_handler(trapframe_t *);
+int _trap_handler(trapframe_t *);
 
 #endif

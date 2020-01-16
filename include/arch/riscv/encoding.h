@@ -40,12 +40,10 @@
 #define REGBYTES 8
 #define STORE sd
 #define LOAD ld
-
 #else
 #define REGBYTES 4
 #define STORE sw
 #define LOAD lw
-
 #endif
 
 #endif
