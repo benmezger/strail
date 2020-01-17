@@ -1,3 +1,5 @@
+[![](https://codescene.io/projects/6574/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/6574/jobs/latest-successful/results)
+
 # strail
 A Kernel with suport to the RISC-V ISA
 
