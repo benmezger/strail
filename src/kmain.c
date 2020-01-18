@@ -1,8 +1,8 @@
+#include <kernel/init.h>
 
 int
 main()
 {
-	int x = 1;
-	asm volatile("ecall");
-	return x;
+	init_arch();
+	asm("ecall");
 }
