@@ -2,6 +2,7 @@
 #define _TRAP_H
 
 #include "encoding.h"
+#include "cpu.h"
 
 #define TRAP_CAUSE_MISALIGNED_FETCH 0x0
 #define TRAP_CAUSE_FETCH_ACCESS 0x1
@@ -35,11 +36,11 @@ typedef void (*trap_callback)(trapframe_t *);
 
 void handle_machine_ecall(trapframe_t *);
 
-const trap_callback trap_handlers[] = {
+static trap_callback trap_handlers[] = {
 	[TRAP_CAUSE_MACHINE_ECALL] = handle_machine_ecall,
 };
 
-void delegate_mode_trap();
+void delegate_mode_trap(enum riscv_opmode, unsigned int);
 
 /* Handle kernel traps */
 int _trap_handler(trapframe_t *);
