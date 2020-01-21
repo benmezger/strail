@@ -6,6 +6,7 @@ BINDIR = ./bin
 SRCDIR = src
 INC=-I./include/
 SRCS = $(shell find $(SRCDIR) -name *.c -or -name *.S -maxdepth 1)
+SRCS += $(shell find $(SRCDIR)/drivers -name *.c -or -name *.S)
 
 ARCH_SRCS := $(shell find $(SRCDIR)/arch/$(ARCH) -name *.c -or -name *.S)
 SRCS += $(ARCH_SRCS)

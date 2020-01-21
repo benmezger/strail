@@ -1,6 +1,7 @@
 #include <arch/riscv/encoding.h>
 #include <arch/riscv/cpu.h>
 #include <arch/riscv/trap.h>
+#include <drivers/uart.h>
 
 void
 init_machine_mode()
@@ -31,4 +32,6 @@ init_riscv()
 {
 	/* initialize machine mode */
 	init_machine_mode();
+
+	uart_init((uint8_t *)UART_BASE_ADDRESS);
 }
