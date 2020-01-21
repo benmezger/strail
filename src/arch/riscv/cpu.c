@@ -18,20 +18,13 @@ init_machine_mode()
 }
 
 void
-init_supervisor_mode()
-{
-	/* Enter machine mode */
-	set_csr(mstatus, 0);
-
-	/* Enable software interrupts */
-	set_csr(mie, MIP_MSIP);
-}
-
-void
 init_riscv()
 {
 	/* initialize machine mode */
 	init_machine_mode();
 
+	/* initialize uart */
 	uart_init();
+	uart_puts(
+	    (uint8_t *)"[init_riscv] | Initialized RISC-V's machine-mode\n");
 }

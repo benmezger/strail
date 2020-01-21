@@ -6,10 +6,10 @@ volatile uint8_t *uart_base = (uint8_t *)UART_BASE_ADDRESS;
 /* TODO: This is not the place for this. Move this somewhere else
  */
 
-void mmio_write(uint8_t *, int, char);
+void mmio_write(volatile uint8_t *, int, char);
 
 void
-mmio_write(uint8_t *address, int offset, char value)
+mmio_write(volatile uint8_t *address, int offset, char value)
 {
 	*(address + offset) = value;
 }
