@@ -53,9 +53,6 @@ all: $(BINARY)
 $(BINARY): clean
 	$(CC) $(CFLAGS) $(LDFLAGS) $(SRCS) -o $(BINARY)
 
-manual:
-	$(CC) $(CFLAGS) $(LDFLAGS) src/crt0.s src/arch/riscv/entry.s ./src/kmain.c src/arch/riscv/cpu.c -o $(BINARY)
-
 .PHONY: clean
 clean:
 	rm -r -f $(BINARY)
