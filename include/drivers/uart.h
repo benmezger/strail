@@ -15,9 +15,8 @@
 
 /*
  * Initialize uart
- * Arg0: uart base address
  */
-void uart_init(uint8_t *);
+void uart_init();
 
 /*
  x* Write character to the uart device

@@ -15,10 +15,11 @@ mmio_write(uint8_t *address, int offset, char value)
 }
 
 void
-uart_init(uint8_t *base_addr)
+uart_init()
 {
+
 	/* Enable 8-bit word-lenght */
-	mmio_write(base_addr, UART_LCR_REG, (1 << 0) | (1 << 1));
+	mmio_write(uart_base, UART_LCR_REG, (1 << 0) | (1 << 1));
 
 	/* Enable FIFO */
 	// mmio_write(base_addr, UART_FIFO_REG, 1 << 0);

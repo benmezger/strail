@@ -33,5 +33,5 @@ init_riscv()
 	/* initialize machine mode */
 	init_machine_mode();
 
-	uart_init((uint8_t *)UART_BASE_ADDRESS);
+	uart_init();
 }
