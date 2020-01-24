@@ -5,6 +5,24 @@
 #include <kernel/printk.h>
 
 void
+dump_stack(trapframe_t *frame)
+{
+	printk("[dump_stack] | Printing stackframe of %p\n", frame);
+
+	int i;
+	for (i = 1; i < 30; i++) {
+		printk("Reg %d = %x\n", i, frame->regs[i]);
+	}
+
+	printk("\n");
+	printk("Reg mstatus = %x\n", frame->status);
+	printk("Reg epc = %x\n", frame->epc);
+	printk("Reg badvaddr = %x\n", frame->badvaddr);
+	printk("Reg cause = %x\n", frame->cause);
+	printk("Reg insn = %x\n", frame->insn);
+}
+
+void
 init_machine_mode()
 {
 	/* Enter machine mode */

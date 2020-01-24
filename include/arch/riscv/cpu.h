@@ -1,11 +1,15 @@
 #ifndef _CPU_H
 #define _CPU_H
 
+#include "trap.h"
+
 /* RISC-V suported operating modes */
 enum riscv_opmode { USER_MODE = 0, SUPERVISOR_MODE = 1, MACHINE_MODE = 3 };
 
 /* main function for initializing RISCV-V */
 void init_riscv();
+
+void dump_stack(trapframe_t *);
 
 /* initiaize supervisor mode */
 void init_supervisor_mode();

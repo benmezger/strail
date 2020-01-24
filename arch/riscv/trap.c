@@ -28,6 +28,7 @@ delegate_mode_trap(enum riscv_opmode mode, unsigned int interrupt)
 int
 trap_handler(trapframe_t *frame)
 {
+	dump_stack(frame);
 	uart_puts((uint8_t *)"[trap_handler] | Handling trap \n");
 	uart_putc((uint8_t)frame->cause);
 	trap_handlers[frame->cause](frame);
