@@ -40,7 +40,7 @@ static trap_callback trap_handlers[] = {
 	[TRAP_CAUSE_MACHINE_ECALL] = handle_machine_ecall,
 };
 
-void delegate_mode_trap(enum riscv_opmode, unsigned int);
+void delegate_mode_trap(int, unsigned int);
 
 /* Handle kernel traps */
 int _trap_handler(trapframe_t *);

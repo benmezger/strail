@@ -10,7 +10,7 @@ handle_machine_ecall(trapframe_t *frame)
 }
 
 void
-delegate_mode_trap(enum riscv_opmode mode, unsigned int interrupt)
+delegate_mode_trap(int mode, unsigned int interrupt)
 {
 	switch (mode) {
 	case MACHINE_MODE:
