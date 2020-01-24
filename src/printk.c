@@ -37,17 +37,17 @@ printk(const char *fmt, ...)
 	while (*fmt != '\0') {
 		if (*fmt == '%') {
 			fmt++;
-			if (*fmt == 'd') {
+			switch (*fmt) {
+			case 'd':
 				value = va_arg(argp, int);
 				iter_left_to_right(value, _printk);
 				fmt++;
 				continue;
-			}
-			if (*fmt == 'c') {
+			case 'c':
 				_printk(va_arg(argp, int));
 				fmt++;
 				continue;
-			} else {
+			default:
 				_printk(*fmt);
 				fmt++;
 				continue;
