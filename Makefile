@@ -1,44 +1,29 @@
 SHELL = /bin/bash
-BINARY = kernel
-ARCH = riscv
-
-BINDIR = ./bin
-SRCDIR = src
-INC=-I./include/
-SRCS = $(shell find $(SRCDIR) -name *.c -or -name *.S -maxdepth 1)
-SRCS += $(shell find $(SRCDIR)/drivers -name *.c -or -name *.S)
-
-ARCH_SRCS := $(shell find $(SRCDIR)/arch/$(ARCH) -name *.c -or -name *.S)
-SRCS += $(ARCH_SRCS)
-
-ifeq ($(ARCH),riscv)
-CFLAGS += \
-	-march=rv64imafdc \
-	-mcmodel=medany \
-	-mabi=lp64d
-LINKER_SCRIPT = riscv64-virt.ld
-CC = riscv64-unknown-elf-gcc
-GDB = riscv64-unknown-elf-gdb
-endif
-
+BINARY = bin
+HOST = riscv
 GDB_PORT = 11111
 
-OBJDIR = ./obj
-OBJS := $(addsuffix .o,$(basename $(SRCDIR)))
-DEPS := $(OBJS:.o=.d)
+CFLAGS ?= -O2
+CPPFLAGS ?=
+LDFLAGS ?=
+LIBS ?=
 
-# -ffreestanding
-CFLAGS += \
-	-D$(shell echo $(ARCH)_ARCH | tr a-z A-Z) \
-	-O0 \
-	-lgcc \
-	$(INC)
+include kernel/make.config
 
+DESTDIR ?=
+CFLAGS := $(CFLAGS) $(KERNEL_CFLAGS)
+CPPFLAGS := $(CPPFLAGS) -Iinclude
+LDFLAGS := $(LDFLAGS) -Wl,--gc-sections -nostartfiles -nodefaultlibs
+LIBS := $(LIBS) -nostdlib -lgcc
 
-# -nodefaultlibs
-LDFLAGS= \
-	-Wl,--gc-sections -nostartfiles -nodefaultlibs \
-	-Wl,-T,$(LINKER_SCRIPT)
+ARCHDIR = arch/$(HOST)
+include $(ARCHDIR)/make.config
+
+CFLAGS := $(CFLAGS) $(KERNEL_ARCH_CFLAGS)
+LDFLAGS := $(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
+LIBS := $(LIBS) $(KERNEL_ARCH_LIBS)
+
+include drivers/make.config
 
 # make DEBUG=1
 DEBUG ?= 0
@@ -48,17 +33,39 @@ else
     CFLAGS += -DNDEBUG
 endif
 
-.PHONY:	all
-all: $(BINARY)
+OBJS = \
+	$(KERNEL_OBJS) \
+	$(KERNEL_ARCH_OBJS) \
+	$(KERNEL_DRIVER_OBJS)
 
-$(BINARY): clean
-	$(CC) $(CFLAGS) $(LDFLAGS) $(SRCS) -o $(BINARY)
+LINK_LIST = \
+	$(LDFLAGS) \
+	$(OBJS) \
+	$(LIBS)
 
-.PHONY: clean
+
+.PHONY: all clean quemu rebuild
+.SUFFIXES: .o .c .S
+
+all: rebuild
+
+rebuild:
+	$(MAKE) clean
+	$(MAKE) $(BINARY)
+
+$(BINARY): $(OBJS)
+	$(CC) -o $@ $(CPPFLAGS) $(CFLAGS) $(LINK_LIST)
+
+.c.o:
+	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
+.S.o:
+	$(CC) -MD -c $< -o $@  $(CFLAGS) $(CPPFLAGS)
+
 clean:
 	rm -r -f $(BINARY)
+	rm -f $(OBJS) *.o */*.o */*/*.o
+	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d
 
-.PHONY: qemu
 qemu:
 	echo "CTRL-a-x to quit Qemu when running -nographic"
 	qemu-system-riscv64 \
