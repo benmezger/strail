@@ -9,6 +9,15 @@ _printk(const char c)
 }
 
 void
+_printks(const char *c)
+{
+	while (*c != '\0') {
+		uart_putc(*c);
+		c++;
+	}
+}
+
+void
 iter_left_to_right(unsigned int n, void (*callback)(const char))
 {
 	unsigned int digit = 1000000000L;
@@ -70,6 +79,10 @@ printk(const char *fmt, ...)
 				continue;
 			case 'c':
 				_printk(va_arg(argp, int));
+				fmt++;
+				continue;
+			case 's':
+				_printks(va_arg(argp, const char *));
 				fmt++;
 				continue;
 			case 'x':
