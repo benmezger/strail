@@ -1,12 +1,12 @@
 #include <arch/riscv/cpu.h>
 #include <arch/riscv/trap.h>
 #include <drivers/uart.h>
+#include <kernel/printk.h>
 
 void
 handle_machine_ecall(trapframe_t *frame)
 {
-	;
-	;
+	printk("[handle_machine_ecall] | frame %p", frame);
 }
 
 void
@@ -28,8 +28,9 @@ delegate_mode_trap(int mode, unsigned int interrupt)
 int
 trap_handler(trapframe_t *frame)
 {
+	printk("[trap_handler] | Handling trap %d\n", frame->cause);
 	dump_stack(frame);
-	uart_puts((uint8_t *)"[trap_handler] | Handling trap \n");
 	uart_putc((uint8_t)frame->cause);
 	trap_handlers[frame->cause](frame);
+	return 1;
 }

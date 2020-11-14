@@ -49,4 +49,6 @@ init_riscv()
 	init_machine_mode();
 
 	printk("[init_riscv] | Initialized RISC-V's machine-mode\n");
+
+	// asm("mret");
 }
