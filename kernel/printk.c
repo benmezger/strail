@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <kernel/printk.h>
 #include <drivers/uart.h>
+#include <string.h>
 
 void
 _printk(const char c)
@@ -106,4 +107,12 @@ printk(const char *fmt, ...)
 		}
 	}
 	va_end(argp);
+}
+
+void
+printkln(const char *fmt, ...)
+{
+	va_list argp;
+	printk(fmt, argp);
+	_printk('\n');
 }

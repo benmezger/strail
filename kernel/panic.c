@@ -4,7 +4,7 @@
 void
 panic()
 {
-	printk("[panic] | Panic");
+	printkln("[panic] | Panic");
 	abort();
 }
 

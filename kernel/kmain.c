@@ -6,6 +6,6 @@ int
 main()
 {
 	init_arch();
-	printk("[main] | Exiting main");
+	printkln("[main] | Exiting main");
 	panic();
 }

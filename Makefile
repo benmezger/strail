@@ -10,6 +10,7 @@ CPPFLAGS ?=
 LDFLAGS ?=
 LIBS ?=
 
+include lib/make.config
 include kernel/make.config
 
 DESTDIR ?=
@@ -36,6 +37,7 @@ else
 endif
 
 OBJS = \
+	$(KERNEL_LIBS) \
 	$(KERNEL_OBJS) \
 	$(KERNEL_ARCH_OBJS) \
 	$(KERNEL_DRIVER_OBJS)
