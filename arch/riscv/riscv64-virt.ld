@@ -18,8 +18,13 @@ SECTIONS
 {
   /* Read-only sections, merged into text segment: */
   PROVIDE (__executable_start = SEGMENT_START("text-segment", 0x10000)); . = SEGMENT_START("text-segment", 0x10000) + SIZEOF_HEADERS;
-  PROVIDE(__stack_top = ORIGIN(RAM) + LENGTH(RAM));
+  PROVIDE(__memory_start = ORIGIN(ram));
+  PROVIDE(__memory_end = ORIGIN(RAM) + LENGTH(RAM));
+  PROVIDE(__stack_top = __memory_end);
+  PROVIDE(__stack_end = __stack_top + LENGTH(RAM));
   PROVIDE(__uart_base_addr = 0x10000000);
+  PROVIDE(__heap_top = __stack_end);
+  PROVIDE(__heap_size = __memory_end - __heap_top);
   .interp         : { *(.interp) }
   .note.gnu.build-id  : { *(.note.gnu.build-id) }
   .hash           : { *(.hash) }
