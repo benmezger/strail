@@ -1,7 +1,9 @@
+CC = riscv64-unknown-elf-gcc
 SHELL = /bin/bash
 BINARY = bin
 HOST = riscv
 GDB_PORT = 11111
+GDB=riscv64-unknown-elf-gdb
 
 CFLAGS ?= -O2
 CPPFLAGS ?=
@@ -73,6 +75,7 @@ qemu:
 	-m 128M \
 	-kernel $(BINARY) \
 	-gdb tcp::$(GDB_PORT) \
+	-bios none
 	-S \
 	-nographic
 
