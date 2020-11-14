@@ -91,9 +91,7 @@
 
 _trap_entry:
         SAVE_CONTEXT
-        # csrr a0, mcause # write mcause to first function argument
-        # csrr a1, mtval # write exception specific information to second argument
-        # csrr a2, mpec # write machine exeception program counter to third argument
+
         mv a0, sp # move sp to the first argument
         jal trap_handler
 
@@ -112,7 +110,8 @@ _setup_mtrap:
         csrw mtvec, t0 # write handler and address mode
 
         # Set DIRECT_MODE access to
-        slli t0, t0, 1 # shift address left by one ; LSB will be 0 (DIRECT_MODE)
+        # LSB will be 0 (DIRECT_MODE)
+        slli t0, t0, 1 # shift address left by one 
 
         # enable machine-mode interrupt (mstatus.MIE = 1)
         li t0, MSTATUS_MIE
