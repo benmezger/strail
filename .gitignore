@@ -4,3 +4,4 @@
 /.ccls-cache/
 /.python-version
 /.DS_Store
+*.o
