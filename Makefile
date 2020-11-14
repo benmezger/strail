@@ -68,15 +68,24 @@ clean:
 	rm -f $(OBJS) *.o */*.o */*/*.o
 	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d
 
-qemu:
+qemu-gdb:
 	echo "CTRL-a-x to quit Qemu when running -nographic"
 	qemu-system-riscv64 \
 	-machine virt \
 	-m 128M \
 	-kernel $(BINARY) \
 	-gdb tcp::$(GDB_PORT) \
-	-bios none
+	-bios none \
 	-S \
+	-nographic
+
+qemu:
+	echo "CTRL-a-x to quit Qemu when running -nographic"
+	qemu-system-riscv64 \
+	-machine virt \
+	-m 128M \
+	-kernel $(BINARY) \
+	-bios none \
 	-nographic
 
 .PHONY: gdb
